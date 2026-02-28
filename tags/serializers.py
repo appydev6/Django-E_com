@@ -7,11 +7,13 @@ from tags.models import Tags
 # write serilizer is user to write operations of DB
 
 class WriteTagSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Tags
         fields = ('name',)
         # Single-item tuple (needs trailing comma) 
         # because The `fields` option must be a list or tuple or "__all__".
+
     def create(self, validated_data):
         name = validated_data['name']
         slug = slugify(name)
@@ -24,6 +26,7 @@ class WriteTagSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 class ReadTagSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Tags
-        fields = ('name', 'slug', 'created_at', 'updated_at')
+        fields = ('id', 'name', 'slug', 'created_at', 'updated_at')
