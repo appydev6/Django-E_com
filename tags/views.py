@@ -6,6 +6,8 @@ from django.utils.text import slugify
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, DestroyAPIView, ListAPIView
 from rest_framework.views import APIView
 
+# Create your views here.
+# flow: request.data → Serializer → validated_data → Manual ORM create → ReadSerializer → 200 OK
 class CreateTagViewV1(APIView):
     def post(self, request):
         serializer = WriteTagSerializer(data=request.data)

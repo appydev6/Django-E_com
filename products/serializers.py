@@ -6,4 +6,8 @@ class WriteProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['name', 'slug', 'description', 'tags', 'price', 'quantity', 'image']
-        
+
+class ReadProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = "__all__"
