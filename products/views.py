@@ -1,5 +1,4 @@
 from products.models import Product
-from django.shortcuts import render
 from django.utils.text import slugify
 from rest_framework.response import Response
 from rest_framework import status
@@ -25,3 +24,4 @@ class CreateProductView(APIView):
 class ProductListView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ReadProductSerializer
+
