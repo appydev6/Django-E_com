@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from products.serializers import WriteProductSerializer, ReadProductSerializer
 from products.filters import SimplePaginationClass
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 # Create your views here.
 # flow: request.data → Add slug → Serializer → validated_data → serializer.save() → ReadSerializer → 201 CREATED
@@ -26,3 +28,9 @@ class ProductListView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ReadProductSerializer
     pagination_class = SimplePaginationClass
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend]
+    # default ordering
+    ordering = ["-id"]
+    ordering_fields = ["id", "created_at"]
+    search_fields = ["^name"]
+    filterset_fields = ["price", "quantity", "tags"]
