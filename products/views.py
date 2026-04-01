@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from products.serializers import WriteProductSerializer, ReadProductSerializer
+from products.filters import SimplePaginationClass
 
 # Create your views here.
 # flow: request.data → Add slug → Serializer → validated_data → serializer.save() → ReadSerializer → 201 CREATED
@@ -24,4 +25,4 @@ class CreateProductView(APIView):
 class ProductListView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ReadProductSerializer
-
+    pagination_class = SimplePaginationClass
