@@ -37,3 +37,8 @@ class ProductListView(ListAPIView):
     ordering_fields = ["id", "created_at"]
     search_fields = ["^name"]
     filterset_fields = ["price", "quantity", "tags"]
+
+    # This just to print the request.user in the API -> It has nothing to do we the APIView
+    def list(self, request, *args, **kwargs):
+        print(request.user)
+        return super().list(request, *args, **kwargs)
