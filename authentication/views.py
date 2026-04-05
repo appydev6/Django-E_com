@@ -5,7 +5,10 @@ from authentication.models import User
 
 # Create your views here.
 class SignUpView(APIView):
-    
+
+    authentication_classes = []
+    permission_classes = []
+
     def post(self, request):
         
         email = request.data['email']
