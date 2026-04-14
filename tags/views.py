@@ -5,15 +5,22 @@ from tags.models import Tags
 from django.utils.text import slugify
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, DestroyAPIView, ListAPIView
 from rest_framework.views import APIView
+from authentication.permissions import IsAdmin
 
 # Create your views here.
 # flow: request.data → Serializer → validated_data → Manual ORM create → ReadSerializer → 200 OK
 class CreateTagViewV1(APIView):
+    
+    permission_classes = (IsAdmin, )
+    
     def post(self, request):
         serializer = WriteTagSerializer(data=request.data)
         if serializer.is_valid():
-            name = serializer.validated_data.get('name')    #'validated_data' has to be called after the 'is_valid' only (or) else if it is called directly it will through an error.
-            tag_object = Tags.objects.create(name=name, slug=slugify(name))
+            name = serializer.validated_data.get("name") # type: ignore
+            #'validated_data' has to be called after the 'is_valid' only 
+            # (or) else if it is called directly it will through an error.
+            
+            tag_object = Tags.objects.create(name=name, slug=slugify(name)) # type: ignore
             response_data = ReadTagSerializer(instance=tag_object).data
             return Response(response_data, status=status.HTTP_200_OK)
 

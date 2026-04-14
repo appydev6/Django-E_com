@@ -5,15 +5,18 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from products.serializers import WriteProductSerializer, ReadProductSerializer
-from products.filters import SimplePaginationClass, OtherPaginationClass
+from products.filters import SimplePaginationClass, OtherPaginationClass, MyUserRateThrottleClass
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from products.permissions import MyPermissionClass
-from authentication.permissions import IsAuthenticatedAndActiveUser
+from authentication.permissions import IsAuthenticatedAndActiveUser, IsAdmin
 
 # Create your views here.
 # flow: request.data → Add slug → Serializer → validated_data → serializer.save() → ReadSerializer → 201 CREATED
 class CreateProductView(APIView):
+
+    permission_classes = (IsAdmin, )
+
     def post(self, request):
         request_data = request.data
         request_data.update({'slug' : slugify(request_data.get('name'))})
@@ -47,6 +50,7 @@ class ProductListView(ListAPIView):
     
     # // To remove class use None:
     # // pagination_class = []
+    throttle_classes = (MyUserRateThrottleClass, )
 
     # This just to print the request.user in the API -> It has nothing to do we the APIView
     def list(self, request, *args, **kwargs):
