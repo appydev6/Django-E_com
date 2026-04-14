@@ -8,7 +8,8 @@ from products.serializers import WriteProductSerializer, ReadProductSerializer
 from products.filters import SimplePaginationClass, OtherPaginationClass
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-
+from products.permissions import MyPermissionClass
+from authentication.permissions import IsAuthenticatedAndActiveUser
 
 # Create your views here.
 # flow: request.data → Add slug → Serializer → validated_data → serializer.save() → ReadSerializer → 201 CREATED
@@ -37,8 +38,18 @@ class ProductListView(ListAPIView):
     ordering_fields = ["id", "created_at"]
     search_fields = ["^name"]
     filterset_fields = ["price", "quantity", "tags"]
+    # permission_classes = (MyPermissionClass,)
+    # permission_classes = (IsAuthenticatedAndActiveUser,)
+     
+    # // To remove classes use empty array:
+    # // authentication_classes = []
+    # // permission_classes = []
+    
+    # // To remove class use None:
+    # // pagination_class = []
 
     # This just to print the request.user in the API -> It has nothing to do we the APIView
     def list(self, request, *args, **kwargs):
         print(request.user)
         return super().list(request, *args, **kwargs)
+

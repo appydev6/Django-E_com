@@ -27,3 +27,4 @@ class SignUpView(APIView):
             return Response({'error': True, 'error_msg': 'Username already in use'})
         User.objects.create_user(email=email, username=username, password=password)
         return Response({"message": "Please login back with same credentials"})
+
