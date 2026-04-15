@@ -12,4 +12,4 @@ class OtherPaginationClass(LimitOffsetPagination):
 
 class MyUserRateThrottleClass(UserRateThrottle):
     # custom throttle class
-    rate = "25/hour" # min/hour/day
+    rate = "500/hour" # min/hour/day

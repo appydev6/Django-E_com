@@ -52,8 +52,12 @@ class ProductListView(ListAPIView):
     # // pagination_class = []
     throttle_classes = (MyUserRateThrottleClass, )
 
+
+    def fetch_external_data(self):
+        return "Hello World!"
+
     # This just to print the request.user in the API -> It has nothing to do we the APIView
     def list(self, request, *args, **kwargs):
-        print(request.user)
-        return super().list(request, *args, **kwargs)
-
+        response = super().list(request, *args, **kwargs)
+        response.data["external_data"] = self.fetch_external_data() # type: ignore
+        return Response(response.data)
